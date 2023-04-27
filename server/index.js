@@ -1,27 +1,32 @@
 import express from "express"
 import "dotenv/config"
 import cors from "cors"
-import nodemailer from "nodemailer"
+import multer from "multer"
 
 const app = express()
+const upload = multer()
 
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use(upload.none())
 
-const myPerson = { name: 'Gabriel'}
 
 app.get("/home", (req, res) => {
-
-  console.log(req.body)
-  res.status(200).send(JSON.stringify(myPerson))
+  
+  res.status(200).send(JSON.stringify({name: 'teste'}))
 })
 
-app.post('/get', (req, res) => {
-  const {nome, email, senha} = req.body
+app.post("/get", (req, res) => {
+  try {
+    const { nome, email, senha } = req.body
+    const usuario = { nome, email, senha}
+    console.log(usuario)
+    res.status(200).send(JSON.stringify(usuario))
 
-  console.log(req.body)
-  res.status(200).send(nome, email, senha)
+  } catch (error) {
+    console.log(`${error.name}: ${error.message}`)
+  }
 })
 
 app.post("/send", (req, res) => {
