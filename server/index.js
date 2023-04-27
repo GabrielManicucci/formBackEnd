@@ -1,5 +1,6 @@
 import express from "express"
 import "dotenv/config"
+import nodemailer from "nodemailer"
 import cors from "cors"
 import multer from "multer"
 
@@ -11,25 +12,26 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(upload.none())
 
-
 app.get("/home", (req, res) => {
-  
-  res.status(200).send(JSON.stringify({name: 'teste'}))
+  res.status(200).send(JSON.stringify({ name: "teste" }))
 })
 
 app.post("/get", (req, res) => {
   try {
     const { nome, email, senha } = req.body
-    const usuario = { nome, email, senha}
+    const usuario = { nome, email, senha }
     console.log(usuario)
-    res.status(200).send(JSON.stringify(usuario))
-
+    res.status(200).send(JSON.stringify({message: "Email enviado com sucesso"}))
   } catch (error) {
     console.log(`${error.name}: ${error.message}`)
   }
 })
 
 app.post("/send", (req, res) => {
+  const { nome, email, senha } = req.body
+  const usuario = { nome, email, senha }
+  console.log(usuario)
+
   let transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
@@ -40,8 +42,8 @@ app.post("/send", (req, res) => {
 
   const message = {
     from: process.env.EMAIL,
-    to: process.env.EMAIL,
-    subject: "Message title",
+    to: email,
+    subject: "teste de envio de email",
     html: "<p>Ola, muito obrigado por entrar em contato conosco</p>"
   }
 
@@ -51,7 +53,7 @@ app.post("/send", (req, res) => {
       res.status(500).send("Erro ao enviar email")
     } else {
       console.log(`Email enviado: ${info.response}`)
-      res.status(200).send("Email enviado com sucesso")
+      res.status(200).send(JSON.stringify({message: "Email enviado com sucesso"}))
     }
   })
 })
