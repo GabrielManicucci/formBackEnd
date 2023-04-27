@@ -1,15 +1,27 @@
 import express from "express"
 import "dotenv/config"
-
+import cors from "cors"
 import nodemailer from "nodemailer"
 
 const app = express()
 
+app.use(cors())
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: false }))
+
+const myPerson = { name: 'Gabriel'}
 
 app.get("/home", (req, res) => {
-  res.status(200).send("<h1>hello world</h1>")
+
+  console.log(req.body)
+  res.status(200).send(JSON.stringify(myPerson))
+})
+
+app.post('/get', (req, res) => {
+  const {nome, email, senha} = req.body
+
+  console.log(req.body)
+  res.status(200).send(nome, email, senha)
 })
 
 app.post("/send", (req, res) => {
