@@ -10,27 +10,31 @@ const upload = multer()
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(upload.none())
 
 app.get("/home", (req, res) => {
   res.status(200).send(JSON.stringify({ name: "teste" }))
 })
 
-app.post("/get", (req, res) => {
+app.post("/get", upload.none(), (req, res) => {
   try {
     const { nome, email, senha } = req.body
     const usuario = { nome, email, senha }
-    console.log(usuario)
-    res.status(200).send(JSON.stringify({message: "Email enviado com sucesso"}))
+    console.log(req.body)
+    res.status(200).send(JSON.stringify({
+      message: "Email enviado com sucesso",
+      usuario
+    }))
   } catch (error) {
     console.log(`${error.name}: ${error.message}`)
   }
 })
 
-app.post("/send", (req, res) => {
+app.post("/send", upload.none(), (req, res) => {
   const { nome, email, senha } = req.body
   const usuario = { nome, email, senha }
-  console.log(usuario)
+  // console.log(usuario)
+  console.log(req)
+ 
 
   let transporter = nodemailer.createTransport({
     service: "Gmail",
