@@ -48,8 +48,8 @@ app.post("/send", upload.none(), (req, res) => {
   const message = {
     from: process.env.EMAIL,
     to: email,
-    subject: "teste de envio de email",
-    html: "<p>Ola, muito obrigado por entrar em contato conosco</p>"
+    subject: "Projeto formulário de Gabriel Manicucci",
+    html: "<p>Ola, muito obrigado por entrar em contato comigo, você recebeu um email após entrar em contato pelo link https://form-front-end.vercel.app. Este é um projeto de estudos de autoria propria que permite ao usuário entrar em contato por email enviando dados através de um formuário em um site. Então se você acessou este link e entrou em contato aqui estão meus dados => github: https://github.com/GabrielManicucci  /  Linkedin: https://www.linkedin.com/in/gabriel-manicucci/</p>"
   }
 
   transporter.sendMail(message, (error, info) => {
