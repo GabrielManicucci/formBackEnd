@@ -1,9 +1,10 @@
+import * as dotenv from "dotenv"
 import express from "express"
-import "dotenv/config"
 import nodemailer from "nodemailer"
 import cors from "cors"
 import multer from "multer"
 
+dotenv.config()
 const app = express()
 const upload = multer()
 
