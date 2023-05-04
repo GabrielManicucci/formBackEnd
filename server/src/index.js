@@ -56,8 +56,7 @@ app.post("/send", upload.none(), (req, res) => {
       console.error(error)
       res.status(500).send(JSON.stringify({
         message: "erro ao enviar email",
-        error: error.name,
-        error: error.message
+        error
       }))
     } else {
       console.log(`Email enviado: ${info.response}`)
