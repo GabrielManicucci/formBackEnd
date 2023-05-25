@@ -18,9 +18,10 @@ app.get("/home", (req, res) => {
 
 app.post("/get", upload.none(), (req, res) => {
   try {
-    const { nome, email, senha } = req.body
-    const usuario = { nome, email, senha }
+    const { nome, email, textarea } = req.body
+    const usuario = { nome, email, textarea }
     console.log(req.body)
+    console.log(usuario)
     res.status(200).send(JSON.stringify({
       message: "Email enviado com sucesso",
       usuario
@@ -31,8 +32,8 @@ app.post("/get", upload.none(), (req, res) => {
 })
 
 app.post("/send", upload.none(), (req, res) => {
-  const { nome, email, senha } = req.body
-  const usuario = { nome, email, senha }
+  const { nome, email, textarea } = req.body
+  const usuario = { nome, email, textarea }
   // console.log(usuario)
   console.log(req)
  
@@ -48,8 +49,11 @@ app.post("/send", upload.none(), (req, res) => {
   const message = {
     from: process.env.EMAIL,
     to: email,
-    subject: "Projeto formulário de Gabriel Manicucci",
-    html: "<p>Ola, muito obrigado por entrar em contato comigo, você recebeu um email após entrar em contato pelo link https://form-front-end.vercel.app. Este é um projeto de estudos de autoria propria que permite ao usuário entrar em contato por email enviando dados através de um formuário em um site. Então se você acessou este link e entrou em contato aqui estão meus dados => github: https://github.com/GabrielManicucci  /  Linkedin: https://www.linkedin.com/in/gabriel-manicucci/</p>"
+    subject: "Email enviado de Projeto formulário de Gabriel Manicucci",
+    html: `
+    <p>Sua menssagem aqui: ${textarea}</p><br>
+    <p>Ola, muito obrigado por entrar em contato comigo, você recebeu um email após entrar em contato pelo link https://form-front-end.vercel.app. Este é um projeto de estudos de autoria propria que permite ao usuário entrar em contato por email enviando dados através de um formuário em um site. Então se você acessou este link e entrou em contato aqui estão meus dados => github: https://github.com/GabrielManicucci  /  Linkedin: https://www.linkedin.com/in/gabriel-manicucci/</p>
+    `
   }
 
   transporter.sendMail(message, (error, info) => {
